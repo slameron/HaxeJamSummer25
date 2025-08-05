@@ -28,7 +28,14 @@ class Text extends FlxBitmapText
 
 		sizeScale = size / 64;
 
-		set_fieldWidth(Std.int(fieldWidth));
+		if (FieldWidth != 0)
+		{
+			multiLine = true;
+			wrap = WORD(WordSplitConditions.LINE_WIDTH);
+			autoSize = false;
+
+			set_fieldWidth(Std.int(FieldWidth));
+		}
 		if (useBorder)
 			setBorderStyle(borderStyle, colorBorder, 8 * sizeScale, 8 * sizeScale);
 

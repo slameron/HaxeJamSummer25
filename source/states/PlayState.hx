@@ -5,10 +5,19 @@ import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileSquare;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
+import util.MinigameHandler.Minigame;
 
 class PlayState extends DefaultState
 {
 	var minigameHandler:MinigameHandler;
+
+	var firstGame:Minigame;
+
+	override public function new(?firstGame:Minigame)
+	{
+		super();
+		this.firstGame = firstGame;
+	}
 
 	override public function create()
 	{
@@ -22,7 +31,7 @@ class PlayState extends DefaultState
 			square.destroyOnNoUse = false;
 			FlxTransitionableState.defaultTransIn = new TransitionData(TILES, FlxColor.BLACK, .25, FlxPoint.get(1, 1), {asset: square, width: 32, height: 32});
 			FlxTransitionableState.defaultTransOut = new TransitionData(TILES, FlxColor.BLACK, .25, FlxPoint.get(1, 1), {asset: square, width: 32, height: 32}); */
-		minigameHandler = new MinigameHandler(this);
+		minigameHandler = new MinigameHandler(this, firstGame);
 		minigameHandler.startNextGame();
 	}
 

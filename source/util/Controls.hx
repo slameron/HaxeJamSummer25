@@ -259,9 +259,10 @@ class Controls
 		lastGameX = FlxG.mouse.gameX;
 		lastGameY = FlxG.mouse.gameY;
 
-		if (controller != null)
-			if (controller.anyInput())
-				lastInput = 'controller';
+		// if (controller != null)
+		//	if (controller.anyInput())
+		//	lastInput = 'controller';
+		// Sorry Don't Feel Like Implementing Controller Support for using the keyboard stuff
 
 		FlxG.watch.addQuick('lastInput', lastInput);
 

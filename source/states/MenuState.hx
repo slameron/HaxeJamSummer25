@@ -27,7 +27,15 @@ class MenuState extends DefaultState
 			FlxG.switchState(() -> new PlayState());
 		});
 
-		menuList.addCallback('Options', f -> {});
+		var debugMenu = new SelectionList(defY, spacing, borderStyle);
+
+		var startFromLevelMenu = new SelectionList(defY, spacing, borderStyle);
+		for (minigame in MinigameHandler.minigameList)
+			startFromLevelMenu.addCallback(Type.getClassName(minigame), f -> FlxG.switchState(() -> new PlayState(minigame)));
+
+		debugMenu.addSubmenu('Start from minigame', startFromLevelMenu);
+
+		menuList.addSubmenu('Debug', debugMenu);
 
 		#if desktop
 		menuList.addCallback('Quit', f ->

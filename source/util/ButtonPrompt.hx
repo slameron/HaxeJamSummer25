@@ -58,6 +58,7 @@ class ButtonPrompt extends FlxSprite
 
 	var parent:FlxObject;
 	var parentOffset:FlxPoint;
+	var centerAboveParent:Bool;
 
 	override function set_cameras(cameras:Array<FlxCamera>):Array<FlxCamera>
 	{
@@ -95,18 +96,19 @@ class ButtonPrompt extends FlxSprite
 	}
 
 	public function new(x:Int, y:Int, data:{keyboard:String, controller:String}, ?iconScale = 4, ?text:String, ?textSize:Int = 8, ?textScale:Float = 1,
-			?textColor:FlxColor = FlxColor.WHITE, textBorderColor:FlxColor = FlxColor.BLACK, ?parent:FlxObject, ?parentOffset:FlxPoint)
+			?textColor:FlxColor = FlxColor.WHITE, textBorderColor:FlxColor = FlxColor.BLACK, ?parent:FlxObject, ?parentOffset:FlxPoint, ?centerAboveParent:Bool)
 	{
 		super(x, y);
 		if (text != null)
 		{
-			this.text = new Text(x, y, 0, text, textSize, true, true, SHADOW, textBorderColor);
+			this.text = new Text(x, y, 0, text, textSize, true, SHADOW, textBorderColor);
 			this.text.scale.set(textScale, textScale);
 			this.text.updateHitbox();
 			this.text.color = textColor;
 		}
 		this.parent = parent;
 		this.parentOffset = parentOffset;
+		this.centerAboveParent = centerAboveParent;
 
 		this.iconScale = iconScale;
 
@@ -187,7 +189,10 @@ class ButtonPrompt extends FlxSprite
 		}
 
 		if (parent != null && parentOffset != null)
-			setPosition(parent.x + parent.width + parentOffset.x, parentOffset.y + parent.y + parent.height / 2 - h / 2);
+			if (centerAboveParent)
+				setPosition(parent.x + parent.width / 2 - w / 2, parent.y + -h - parentOffset.y);
+			else
+				setPosition(parent.x + parent.width + parentOffset.x, parent.y + parentOffset.y + parent.height / 2 - h / 2);
 
 		if (!useClipRect)
 			return;

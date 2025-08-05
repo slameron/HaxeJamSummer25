@@ -39,11 +39,13 @@ class Init extends FlxState
 		FlxG.fixedTimestep = false;
 		FlxG.save.bind("haxesummer25", "slameron");
 
-		//	FlxG.mouse.load('assets/images/mousehand.png', 2);
+		FlxG.mouse.load('assets/images/mouseHand.png', 1);
 
 		controls = new Controls();
 
 		Sound.init();
+
+		FlxG.sound.muteKeys = null;
 
 		Application.current.meta.set('nightly', '');
 		Application.current.meta.set('version', '0.0.1');
@@ -68,9 +70,9 @@ class Init extends FlxState
 			FlxG.save.data.masterVolume = 1;
 
 		if (FlxG.save.data.soundVolume == null)
-			FlxG.save.data.soundVolume = 1;
+			FlxG.save.data.soundVolume = .75;
 		if (FlxG.save.data.musicVolume == null)
-			FlxG.save.data.musicVolume = 1;
+			FlxG.save.data.musicVolume = .5;
 		FlxG.save.flush();
 
 		FlxG.sound.volume = FlxG.save.data.volume;
