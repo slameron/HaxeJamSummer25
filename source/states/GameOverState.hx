@@ -34,6 +34,8 @@ class GameOverState extends DefaultState
 		}
 
 		new FlxTimer().start(2, tmr -> canProceed = true);
+
+		Sound.playMusic('gameover', false);
 	}
 
 	override public function update(elapsed:Float)
