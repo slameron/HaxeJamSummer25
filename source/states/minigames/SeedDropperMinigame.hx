@@ -35,6 +35,9 @@ class SeedDropperMinigame extends BaseMinigame
 			return;
 		ended = true;
 
+		seed.velocity.y = 0;
+		FlxTween.cancelTweensOf(pot);
+
 		if (timer.active)
 			timer.cancel();
 
@@ -62,6 +65,9 @@ class SeedDropperMinigame extends BaseMinigame
 		super.update(elapsed);
 
 		seed.velocity.x = 0;
+		if (ended)
+			return;
+
 		if (controls.pressed('left'))
 			seed.velocity.x = -200;
 		if (controls.pressed('right'))

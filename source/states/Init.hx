@@ -64,7 +64,10 @@ class Init extends FlxState
 		FlxG.fullscreen = FlxG.save.data.fullscreen;
 
 		if (FlxG.save.data.volume == null)
-			FlxG.save.data.volume = 1;
+			FlxG.save.data.volume = .3;
+
+		if (FlxG.save.data.highscore == null)
+			FlxG.save.data.highscore = 0;
 
 		if (FlxG.save.data.masterVolume == null)
 			FlxG.save.data.masterVolume = 1;
@@ -98,7 +101,7 @@ class Init extends FlxState
 		#if (desktop || (web && !webmobile))
 		FlxG.mouse.visible = false;
 		#end
-		FlxG.switchState(() -> new states.MenuState());
+		FlxG.switchState(() -> new states.MainMenuState());
 
 		super.create();
 	}

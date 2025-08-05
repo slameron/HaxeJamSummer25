@@ -49,6 +49,8 @@ class RootAccessMinigame extends BaseMinigame
 			{
 				onComplete(success);
 			});
+
+			funnyText.text = '> ${funnyString.substr(0, Std.int((funnyString.length / 25) * spamString.length))}\n> Access Granted.';
 		}
 		else if (onComplete != null)
 			onComplete(success);
@@ -59,6 +61,9 @@ class RootAccessMinigame extends BaseMinigame
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (ended)
+			return;
 
 		if (FlxG.keys.firstJustPressed() != -1)
 		{

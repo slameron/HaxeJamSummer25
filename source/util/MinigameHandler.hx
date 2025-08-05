@@ -55,7 +55,7 @@ class MinigameHandler
 		{
 			FlxG.switchState(() -> new TransitionState(success, () ->
 			{
-				FlxG.switchState(() -> new GameOverState());
+				FlxG.switchState(() -> new GameOverState(level));
 			}));
 			return;
 		}

@@ -5,7 +5,7 @@
 
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="HaxeJamSummer25" file="HaxeJamSummer25" main="Main" version="0.0.1"
+	<app title="Root Rush" file="rootrush" main="Main" version="0.0.1"
 		company="slameron" />
 
 	<!--The

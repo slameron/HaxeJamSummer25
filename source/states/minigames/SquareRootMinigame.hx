@@ -14,6 +14,7 @@ class SquareRootMinigame extends BaseMinigame
 
 	var sqrtNumber:Int;
 	var lastEntered:String = '';
+	var numberText:Text;
 
 	override function start()
 	{
@@ -21,7 +22,7 @@ class SquareRootMinigame extends BaseMinigame
 
 		sqrtNumber = FlxG.random.int(2, 15);
 
-		var numberText = new Text(0, 0, 0, '${sqrtNumber * sqrtNumber}', 96, true);
+		numberText = new Text(0, 0, 0, 'sqrt ${sqrtNumber * sqrtNumber} = ?', 78, true);
 		numberText.setPosition(playBounds.x + playBounds.width / 2 - numberText.width / 2, playBounds.y + playBounds.height / 2 - numberText.height / 2);
 		add(numberText);
 
@@ -51,6 +52,7 @@ class SquareRootMinigame extends BaseMinigame
 			{
 				onComplete(success);
 			});
+			numberText.text = 'sqrt ${sqrtNumber * sqrtNumber} = $sqrtNumber!';
 		}
 		else if (onComplete != null)
 			onComplete(success);

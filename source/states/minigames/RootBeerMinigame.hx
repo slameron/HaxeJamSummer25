@@ -56,7 +56,8 @@ class RootBeerMinigame extends BaseMinigame
 		if (success)
 		{
 			Sound.play('rootbeerStab');
-
+			Sound.play('cola');
+			theSipper.animation.play('winwinyummyyummy');
 			new FlxTimer().start(2, tmr -> if (onComplete != null)
 			{
 				onComplete(success);
@@ -69,6 +70,9 @@ class RootBeerMinigame extends BaseMinigame
 	override public function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if (ended)
+			return;
 
 		var nextDirection:Array<FlxKey> = switch (arrows.members[currentArrow].arrowDir)
 		{
@@ -83,13 +87,12 @@ class RootBeerMinigame extends BaseMinigame
 
 		if (FlxG.keys.anyJustPressed(nextDirection))
 		{
+			arrows.members[currentArrow].hit(true);
+
 			if (currentArrow + 1 >= arrows.members.length)
 				end(true);
 			else
-			{
-				arrows.members[currentArrow].hit(true);
 				currentArrow++;
-			}
 		}
 		else if (FlxG.keys.firstJustPressed() != -1)
 		{
@@ -101,6 +104,8 @@ class RootBeerMinigame extends BaseMinigame
 			currentArrow = 0;
 		}
 
+		if (ended)
+			return;
 		theSipper.animation.curAnim.curFrame = Std.int(FlxMath.remapToRange(currentArrow, 0, arrows.members.length - 1, 0,
 			theSipper.animation.getByName('drink').numFrames - 1));
 	}
