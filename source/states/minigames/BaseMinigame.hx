@@ -63,6 +63,8 @@ class BaseMinigame extends DefaultState
 
 		playBounds = new FlxObject(playArea.x + 10, playArea.y + 5, playArea.width - 20, playArea.height - 10);
 
+		selectedSong = FlxG.random.getObject(songsList);
+
 		start();
 
 		var playAreaOverlay = new FlxSprite().loadGraphic('assets/images/minigame/playAreaOverlay.png');
@@ -87,6 +89,8 @@ class BaseMinigame extends DefaultState
 
 		timerBar.value = 586;
 		timerTween = FlxTween.tween(timerBar, {'value': 0}, time, {ease: FlxEase.smootherStepOut});
+
+		Sound.playMusic('${selectedSong}Loop');
 	}
 
 	override public function update(elapsed:Float)
@@ -110,9 +114,25 @@ class BaseMinigame extends DefaultState
 			return;
 		ended = true;
 
-		if (onComplete != null)
+		if (timer.active)
+			timer.cancel();
+
+		if (timerTween.active)
+			timerTween.cancel();
+
+		if (Sound.musics.exists('${selectedSong}Loop'))
+			Sound.musics.get('${selectedSong}Loop').kill();
+
+		if (success)
 		{
-			onComplete(success);
+			Sound.play('${selectedSong}Stab');
+
+			new FlxTimer().start(2, tmr -> if (onComplete != null)
+			{
+				onComplete(success);
+			});
 		}
+		else if (onComplete != null)
+			onComplete(success);
 	}
 }

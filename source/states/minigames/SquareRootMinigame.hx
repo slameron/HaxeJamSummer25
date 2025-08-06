@@ -26,36 +26,18 @@ class SquareRootMinigame extends BaseMinigame
 		numberText.setPosition(playBounds.x + playBounds.width / 2 - numberText.width / 2, playBounds.y + playBounds.height / 2 - numberText.height / 2);
 		add(numberText);
 
-		Sound.playMusic('squarerootLoop', false);
+		selectedSong = 'squareroot';
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
 
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('squarerootLoop'))
-			Sound.musics.get('squarerootLoop').kill();
+		super.end(success);
 
 		if (success)
-		{
-			Sound.play('squarerootStab');
-
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
 			numberText.text = 'sqrt ${sqrtNumber * sqrtNumber} = $sqrtNumber!';
-		}
-		else if (onComplete != null)
-			onComplete(success);
 	}
 
 	override public function update(elapsed:Float)

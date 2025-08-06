@@ -23,37 +23,18 @@ class RootAccessMinigame extends BaseMinigame
 		funnyText.color = FlxColor.LIME;
 		add(funnyText);
 
-		Sound.playMusic('rootaccessLoop', false);
+		selectedSong = 'rootaccess';
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
 
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('rootaccessLoop'))
-			Sound.musics.get('rootaccessLoop').kill();
+		super.end(success);
 
 		if (success)
-		{
-			Sound.play('rootaccessStab');
-
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
-
 			funnyText.text = '> ${funnyString.substr(0, Std.int((funnyString.length / 25) * spamString.length))}\n> Access Granted.';
-		}
-		else if (onComplete != null)
-			onComplete(success);
 	}
 
 	var spamString:String = '';

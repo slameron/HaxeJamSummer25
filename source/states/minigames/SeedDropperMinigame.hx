@@ -24,40 +24,17 @@ class SeedDropperMinigame extends BaseMinigame
 		seed = new FlxSprite().loadGraphic('assets/images/seed.png');
 		seed.setPosition(FlxG.random.int(Std.int(playBounds.x + 10), Std.int(playBounds.x + playBounds.width - 10 - seed.width)), playBounds.y + 10);
 		add(seed);
-
-		selectedSong = FlxG.random.getObject(songsList);
-		Sound.playMusic('${selectedSong}Loop');
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
+
+		super.end(success);
 
 		seed.velocity.y = 0;
 		FlxTween.cancelTweensOf(pot);
-
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('${selectedSong}Loop'))
-			Sound.musics.get('${selectedSong}Loop').kill();
-
-		if (success)
-		{
-			Sound.play('${selectedSong}Stab');
-
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
-		}
-		else if (onComplete != null)
-			onComplete(success);
 	}
 
 	override public function update(elapsed:Float)

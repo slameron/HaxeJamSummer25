@@ -45,37 +45,14 @@ class WiresMinigame extends BaseMinigame
 			FlxG.stage.addChild(line);
 			wireLines.push(line);
 		}
-
-		selectedSong = FlxG.random.getObject(songsList);
-		Sound.playMusic('${selectedSong}Loop');
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
 
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('${selectedSong}Loop'))
-			Sound.musics.get('${selectedSong}Loop').kill();
-
-		if (success)
-		{
-			Sound.play('${selectedSong}Stab');
-
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
-		}
-		else if (onComplete != null)
-			onComplete(success);
+		super.end(success);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -84,7 +61,8 @@ class WiresMinigame extends BaseMinigame
 
 		if (FlxG.mouse.justPressed)
 		{
-			for (wire in leftWires)
+			var wireGroup = FlxG.mouse.x >= FlxG.width / 2 ? rightWires : leftWires;
+			for (wire in wireGroup)
 			{
 				if (FlxMath.distanceToMouse(wire) <= 30)
 				{
@@ -96,14 +74,18 @@ class WiresMinigame extends BaseMinigame
 
 		if (FlxG.mouse.justReleased && dragging != null)
 		{
-			for (target in rightWires)
+			var wireGroup = rightWires.contains(dragging) ? leftWires : rightWires;
+			for (target in wireGroup)
 			{
 				if (FlxMath.distanceToMouse(target) <= 30)
 				{
 					var colorMatch = getColor(dragging) == getColor(target);
 					if (colorMatch)
 					{
-						connections.set(dragging, target);
+						if (rightWires.contains(dragging))
+							connections.set(target, dragging);
+						else
+							connections.set(dragging, target);
 					}
 					break;
 				}
@@ -117,10 +99,10 @@ class WiresMinigame extends BaseMinigame
 			var gfx:Graphics = line.graphics;
 			gfx.clear();
 
-			var from = leftWires[i].getMidpoint();
+			var from = dragging != null ? rightWires[i] == dragging ? rightWires[i].getMidpoint() : leftWires[i].getMidpoint() : leftWires[i].getMidpoint();
 			var to:FlxPoint = null;
 
-			if (dragging == leftWires[i])
+			if (dragging == leftWires[i] || dragging == rightWires[i])
 			{
 				to = new FlxPoint(FlxG.mouse.x, FlxG.mouse.y);
 			}
@@ -131,7 +113,7 @@ class WiresMinigame extends BaseMinigame
 
 			if (to != null)
 			{
-				gfx.lineStyle(12, getColor(leftWires[i]), 1);
+				gfx.lineStyle(12, getColor(dragging != null ? rightWires[i] == dragging ? rightWires[i] : leftWires[i] : leftWires[i]), 1);
 				gfx.moveTo(from.x, from.y);
 				gfx.lineTo(to.x, to.y);
 			}

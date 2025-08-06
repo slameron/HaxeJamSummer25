@@ -28,37 +28,14 @@ class WateringMinigame extends BaseMinigame
 		wateringCan.animation.play('regular');
 
 		add(wateringCan);
-
-		selectedSong = FlxG.random.getObject(songsList);
-		Sound.playMusic('${selectedSong}Loop');
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
 
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('${selectedSong}Loop'))
-			Sound.musics.get('${selectedSong}Loop').kill();
-
-		if (success)
-		{
-			Sound.play('${selectedSong}Stab');
-
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
-		}
-		else if (onComplete != null)
-			onComplete(success);
+		super.end(success);
 	}
 
 	override public function update(elapsed:Float)

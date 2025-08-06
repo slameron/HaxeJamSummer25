@@ -35,36 +35,21 @@ class RootBeerMinigame extends BaseMinigame
 		arrows.setPosition(playBounds.x + playBounds.width / 2 - arrows.width / 2, playBounds.y + playBounds.height / 2 - arrows.height / 2);
 		add(arrows);
 
-		Sound.playMusic('rootbeerLoop', false);
+		selectedSong = 'rootbeer';
 	}
 
 	override public function end(success:Bool)
 	{
 		if (ended)
 			return;
-		ended = true;
 
-		if (timer.active)
-			timer.cancel();
-
-		if (timerTween.active)
-			timerTween.cancel();
-
-		if (Sound.musics.exists('rootbeerLoop'))
-			Sound.musics.get('rootbeerLoop').kill();
+		super.end(success);
 
 		if (success)
 		{
-			Sound.play('rootbeerStab');
 			Sound.play('cola');
 			theSipper.animation.play('winwinyummyyummy');
-			new FlxTimer().start(2, tmr -> if (onComplete != null)
-			{
-				onComplete(success);
-			});
 		}
-		else if (onComplete != null)
-			onComplete(success);
 	}
 
 	override public function update(elapsed:Float)

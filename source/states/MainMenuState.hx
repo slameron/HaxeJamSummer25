@@ -50,6 +50,11 @@ class MainMenuState extends DefaultState
 	{
 		super.update(elapsed);
 
+		#if FLX_DEBUG
+		if (FlxG.keys.justPressed.G)
+			FlxG.switchState(() -> new MenuState());
+		#end
+
 		if (FlxG.mouse.overlaps(playButton))
 		{
 			playButton.animation.play('big');

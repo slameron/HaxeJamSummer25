@@ -1,8 +1,10 @@
 package util;
 
 import states.minigames.BaseMinigame;
+import states.minigames.DyedRootsMinigame;
 import states.minigames.RootAccessMinigame;
 import states.minigames.RootBeerMinigame;
+import states.minigames.RootCanalMinigame;
 import states.minigames.SeedDropperMinigame;
 import states.minigames.SquareRootMinigame;
 import states.minigames.UprootMinigame;
@@ -14,8 +16,10 @@ typedef Minigame = Class<BaseMinigame>;
 class MinigameHandler
 {
 	public static var minigameList:Array<Minigame> = [
+		DyedRootsMinigame,
 		RootAccessMinigame,
 		RootBeerMinigame,
+		RootCanalMinigame,
 		SeedDropperMinigame,
 		SquareRootMinigame,
 		UprootMinigame,
